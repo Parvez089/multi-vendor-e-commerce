@@ -45,7 +45,7 @@ const navbarItems = [
 
 export const Navbar = () => {
   const pathname = usePathname();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <nav className='h-20 flex border-b justify-between font-medium bg-white'>
@@ -55,11 +55,10 @@ export const Navbar = () => {
         </span>
       </Link>
 
-      <NavbarSidebar 
-       items={navbarItems}
-       open={isSidebarOpen}
-       onOpenChange={setIsSidebarOpen}
-
+      <NavbarSidebar
+        items={navbarItems}
+        open={isSidebarOpen}
+        onOpenChange={setIsSidebarOpen}
       />
 
       <div className='items-center gap-4 hidden lg:flex'>
@@ -86,13 +85,12 @@ export const Navbar = () => {
           <Link href='/sign-up'>Start selling</Link>
         </Button>
       </div>
-      <div className="flex lg:hidden items-center justify-center">
+      <div className='flex lg:hidden items-center justify-center'>
         <Button
-        variant="ghost"
-        className="size-12 border-transparent bg-white"
-        onClick={()=> setIsSidebarOpen(true)}
-        >
-          <MenuIcon/>
+          variant='ghost'
+          className='size-12 border-transparent bg-white'
+          onClick={() => setIsSidebarOpen(true)}>
+          <MenuIcon />
         </Button>
       </div>
     </nav>
