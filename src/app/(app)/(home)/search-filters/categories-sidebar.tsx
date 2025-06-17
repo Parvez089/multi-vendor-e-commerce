@@ -53,7 +53,7 @@ export const CategoriesSidebar = ({
         // This is a subcategory - navigate to /category/ subcategory
         router.push(`/${selectedCategory.slug}/${category.slug}`);
       } else {
-        // This is a main category - navigat to / category
+        // This is a main category - navigate to / category
         if (category.slug === "all") {
           router.push("/");
         } else {

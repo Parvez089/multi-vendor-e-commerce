@@ -125,6 +125,7 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
+  username: string;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -165,11 +166,7 @@ export interface Category {
   slug: string;
   color?: string | null;
   parent?: (string | null) | Category;
-  subcategories?: {
-    docs?: (string | Category)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
+  subcategories?: Category[];
   updatedAt: string;
   createdAt: string;
 }
@@ -181,20 +178,20 @@ export interface PayloadLockedDocument {
   id: string;
   document?:
     | ({
-        relationTo: 'users';
+        relationTo: "users";
         value: string | User;
       } | null)
     | ({
-        relationTo: 'media';
+        relationTo: "media";
         value: string | Media;
       } | null)
     | ({
-        relationTo: 'categories';
+        relationTo: "categories";
         value: string | Category;
       } | null);
   globalSlug?: string | null;
   user: {
-    relationTo: 'users';
+    relationTo: "users";
     value: string | User;
   };
   updatedAt: string;
@@ -207,7 +204,7 @@ export interface PayloadLockedDocument {
 export interface PayloadPreference {
   id: string;
   user: {
-    relationTo: 'users';
+    relationTo: "users";
     value: string | User;
   };
   key?: string | null;
@@ -239,6 +236,7 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  username?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
