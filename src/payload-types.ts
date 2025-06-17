@@ -166,7 +166,11 @@ export interface Category {
   slug: string;
   color?: string | null;
   parent?: (string | null) | Category;
-  subcategories?: Category[];
+  subcategories?: {
+    docs?: (string | Category)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -178,20 +182,20 @@ export interface PayloadLockedDocument {
   id: string;
   document?:
     | ({
-        relationTo: "users";
+        relationTo: 'users';
         value: string | User;
       } | null)
     | ({
-        relationTo: "media";
+        relationTo: 'media';
         value: string | Media;
       } | null)
     | ({
-        relationTo: "categories";
+        relationTo: 'categories';
         value: string | Category;
       } | null);
   globalSlug?: string | null;
   user: {
-    relationTo: "users";
+    relationTo: 'users';
     value: string | User;
   };
   updatedAt: string;
@@ -204,7 +208,7 @@ export interface PayloadLockedDocument {
 export interface PayloadPreference {
   id: string;
   user: {
-    relationTo: "users";
+    relationTo: 'users';
     value: string | User;
   };
   key?: string | null;

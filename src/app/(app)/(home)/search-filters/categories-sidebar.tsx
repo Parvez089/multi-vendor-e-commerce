@@ -43,26 +43,27 @@ export const CategoriesSidebar = ({
     onOpenChange(open);
   };
 
-  const handleCategoryClick = (category: CategoriesGetManyOutput[1]) => {
-    if (category.subcategories && category.subcategories.length > 0) {
-      setParentCategories(category.subcategories as CategoriesGetManyOutput);
-      setSelectedCategory(category);
+const handleCategoryClick = (category: CategoriesGetManyOutput[number]) => {
+  const hasSubcategories =
+    Array.isArray(category.subcategories) && category.subcategories.length > 0;
+
+  if (hasSubcategories) {
+    const normalizedSubcategories = category.subcategories!.map((sub) => ({
+      ...sub,
+      subcategories: sub.subcategories ?? [], // ensure shape
+    }));
+    setParentCategories(normalizedSubcategories);
+    setSelectedCategory(category);
+  } else {
+    if (parentCategories && selectedCategory) {
+      router.push(`/${selectedCategory.slug}/${category.slug}`);
     } else {
-      // This is a leaf category (no subcategories)
-      if (parentCategories && selectedCategory) {
-        // This is a subcategory - navigate to /category/ subcategory
-        router.push(`/${selectedCategory.slug}/${category.slug}`);
-      } else {
-        // This is a main category - navigate to / category
-        if (category.slug === "all") {
-          router.push("/");
-        } else {
-          router.push(`/${category.slug}`);
-        }
-      }
-      handleOpenChange(false);
+      router.push(category.slug === "all" ? "/" : `/${category.slug}`);
     }
-  };
+    handleOpenChange(false);
+  }
+};
+
 
   const handleBackClick = () => {
     if (parentCategories) {
