@@ -23,7 +23,7 @@ import { registerSchema } from "../../schemas";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useTRPC } from "@/trpc/client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 const poppins = Poppins({
@@ -32,18 +32,21 @@ const poppins = Poppins({
 });
 
 export const SignUpView = () => {
-  const router =  useRouter();
+  const router = useRouter();
 
   const trpc = useTRPC();
-  const register = useMutation(trpc.auth.register.mutationOptions({
-    onError: (error)=>{
-      toast.error(error.message);
-    },
-    onSuccess:()=>{
-      router.push("/");
-    }
-  }));
-
+  const queryClient = useQueryClient();
+  const register = useMutation(
+    trpc.auth.register.mutationOptions({
+      onError: (error) => {
+        toast.error(error.message);
+      },
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(trpc.auth.session.queryFilter());
+        router.push("/");
+      },
+    })
+  );
 
   const form = useForm<z.infer<typeof registerSchema>>({
     mode: "all",
@@ -61,7 +64,6 @@ export const SignUpView = () => {
 
   const username = form.watch("username");
   const usernameErrors = form.formState.errors.username;
-
 
   const showPreview = username && !usernameErrors;
   return (
