@@ -9,6 +9,7 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users.ts'
 import { Media } from './collections/Media'
+import { Products } from "./collections/Products.ts";
 import { Categories } from './collections/Categories.ts'
 
 const filename = fileURLToPath(import.meta.url)
@@ -21,18 +22,18 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Categories],
+  collections: [Users, Media, Categories, Products],
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || '',
+  secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
-    outputFile: path.resolve(dirname, 'payload-types.ts'),
+    outputFile: path.resolve(dirname, "payload-types.ts"),
   },
   db: mongooseAdapter({
-    url: process.env.DATABASE_URI || '',
+    url: process.env.DATABASE_URI || "",
   }),
   sharp,
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder
   ],
-})
+});
