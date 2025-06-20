@@ -1,1 +1,3 @@
-export const DEFAULT_LIMIT = 2;
+/** @format */
+
+export const DEFAULT_LIMIT = 3;
