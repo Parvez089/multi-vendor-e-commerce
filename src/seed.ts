@@ -140,32 +140,41 @@ const categories = [
 console.log(categories)
 
 const seed = async ()=>{
-    const payload = await getPayload({config});
-    console.log("Connected to Payload & DB")
+  const payload = await getPayload({ config });
 
+  // Create admin user
+  await payload.create({
+    collection: "users",
+    data: {
+      email: "admin@demo.com",
+      password: "demo",
+      roles: ["super-admin"],
+      username: "admin",
+    },
+  });
 
-    for(const category of categories){
-        const parentCategory = await payload.create({
-            collection: "categories",
-            data:{
-                name: category.name,
-                slug: category.slug,
-                color: category.color,
-                parent: null,
-            }
-        });
+  for (const category of categories) {
+    const parentCategory = await payload.create({
+      collection: "categories",
+      data: {
+        name: category.name,
+        slug: category.slug,
+        color: category.color,
+        parent: null,
+      },
+    });
 
-        for(const subCategory of category.subcategories || []){
-            await payload.create({
-                collection: "categories",
-                data: {
-                    name: subCategory.name,
-                    slug: subCategory.slug,
-                    parent: parentCategory.id,
-                },
-            });
-        }
+    for (const subCategory of category.subcategories || []) {
+      await payload.create({
+        collection: "categories",
+        data: {
+          name: subCategory.name,
+          slug: subCategory.slug,
+          parent: parentCategory.id,
+        },
+      });
     }
+  }
 }
 
 try{
