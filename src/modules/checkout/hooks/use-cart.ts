@@ -28,14 +28,15 @@ export const useCart = (tenantSlug: string) =>{
     }
 
     return {
-        productIds,
-        addProduct: (productId: string)=>addProduct(tenantSlug, productId),
-        removeProduct: (productId: string)=>addProduct(tenantSlug, productId),
-        clearCart: clearTenantCart,
-        clearAllCarts,
-        toggleProduct,
-        isProductInCart,
-        totalItems: productIds.length
-    }
+      productIds,
+      addProduct: (productId: string) => addProduct(tenantSlug, productId),
+      removeProduct: (productId: string) =>
+        removeProduct(tenantSlug, productId),
+      clearCart: clearTenantCart,
+      clearAllCarts,
+      toggleProduct,
+      isProductInCart,
+      totalItems: productIds.length,
+    };
 
 }
