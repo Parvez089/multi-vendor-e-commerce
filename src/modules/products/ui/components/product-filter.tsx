@@ -60,7 +60,7 @@ export const ProductFilters = () => {
     setFilters({ ...filters, [key]: value });
   };
   return (
-    <div className='border rounded-md bg-white'>
+    <div className='border rounded-md bg-white mb-5'>
       <div className='p-4 border-b flex items-center justify-between'>
         <p className='font-medium'>Filters</p>
         {hasAnyFilters && (
