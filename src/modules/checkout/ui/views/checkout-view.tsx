@@ -23,6 +23,7 @@ export const CheckoutView = ({ tenantSlug }: CheckoutViewProps) => {
   const router = useRouter();
   const [states, setStates] = useCheckoutStates();
   const { productIds, removeProduct, clearCart } = useCart(tenantSlug);
+  const cart = useCart(tenantSlug);
 
   const trpc = useTRPC();
   const { data, error, isLoading } = useQuery(
@@ -50,14 +51,15 @@ export const CheckoutView = ({ tenantSlug }: CheckoutViewProps) => {
   );
 
   useEffect(() => {
+    console.log("triggered");
     if (states.success) {
       setStates({ success: false, cancel: false });
-      clearCart();
+      cart.clearCart();
 
       // TODO: Invalidate library
       router.push("/products");
     }
-  }, [states.success, clearCart, router, setStates]);
+  }, [states.success, clearCart, router, setStates, cart.clearAllCarts]);
 
   useEffect(() => {
     if (error?.data?.code === "NOT_FOUND") {
