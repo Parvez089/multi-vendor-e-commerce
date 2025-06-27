@@ -10,10 +10,7 @@ import { Button } from "@/components/ui/button";
 import { InboxIcon } from "lucide-react";
 import { ProductCard, ProductCardSkeleton } from "./product-card";
 
-
-
 export const ProductList = () => {
-
   const trpc = useTRPC();
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
     useSuspenseInfiniteQuery(
@@ -40,9 +37,7 @@ export const ProductList = () => {
 
   return (
     <>
-      <div
-        className=
-          "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4'>
         {data?.pages
           .flatMap((page) => page.docs)
           .map((product) => (
@@ -53,9 +48,8 @@ export const ProductList = () => {
               imageUrl={product.image?.url}
               tenantSlug={product.tenant?.slug}
               tenantImageUrl={product.tenant?.image?.url ?? undefined}
-              reviewRating={3}
-              reviewCount={5}
-     
+              reviewRating={product.reviewRating}
+              reviewCount={product.reviewCount}
             />
           ))}
       </div>
@@ -76,9 +70,7 @@ export const ProductList = () => {
 
 export const ProductListSkeleton = () => {
   return (
-    <div
-      className=
-        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4'>
       {Array.from({ length: DEFAULT_LIMIT }).map((_, index) => (
         <ProductCardSkeleton key={index} />
       ))}

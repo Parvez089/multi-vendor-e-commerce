@@ -1,12 +1,8 @@
 /** @format */
-// TODO: Add real ratings
-
-
 
 import { StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
 
 interface ProductCardProps {
   id: string;
@@ -16,7 +12,6 @@ interface ProductCardProps {
   tenantImageUrl?: string;
   reviewRating: number;
   reviewCount: number;
-
 }
 
 export const ProductCard = ({
@@ -27,7 +22,6 @@ export const ProductCard = ({
   tenantImageUrl,
   reviewRating,
   reviewCount,
-
 }: ProductCardProps) => {
   return (
     <Link prefetch href={`/library/${id}`}>
