@@ -31,7 +31,10 @@ export const ProductList = ({ category, tenantSlug, narrowView }: Props) => {
         },
         {
           getNextPageParam: (lastPage) => {
-            return lastPage.docs.length > 0 ? lastPage.nextPage : undefined;
+            if (!lastPage?.docs || lastPage.docs.length === 0) {
+              return undefined;
+            }
+            return lastPage.nextPage;
           },
         }
       )
@@ -63,8 +66,8 @@ export const ProductList = ({ category, tenantSlug, narrowView }: Props) => {
               imageUrl={product.image?.url}
               tenantSlug={product.tenant?.slug}
               tenantImageUrl={product.tenant?.image?.url ?? undefined}
-              reviewRating={3}
-              reviewCount={5}
+              reviewRating={product.reviewRating}
+              reviewCount={product.reviewCount}
               price={product.price}
             />
           ))}
