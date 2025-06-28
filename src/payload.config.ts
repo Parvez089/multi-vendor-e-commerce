@@ -18,6 +18,7 @@ import { Tenants } from "./collections/Tenants.ts";
 import { Config } from "./payload-types.ts";
 import { Orders } from "./collections/Orders.ts";
 import { Reviews } from "./collections/Reviews.ts";
+import { isSuperAdmin } from "./lib/access.ts";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -57,8 +58,7 @@ export default buildConfig({
       tenantsArrayField: {
         includeDefaultField: false,
       },
-      userHasAccessToAllTenants: (user) =>
-        Boolean(user?.roles?.includes("super-admin")),
+      userHasAccessToAllTenants: (user) => isSuperAdmin(user),
     }),
     // storage-adapter-placeholder
   ],

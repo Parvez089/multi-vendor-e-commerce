@@ -1,7 +1,14 @@
-import type { CollectionConfig } from 'payload'
+/** @format */
+
+import { isSuperAdmin } from "@/lib/access";
+import type { CollectionConfig } from "payload";
 
 export const Tenants: CollectionConfig = {
   slug: "tenants",
+  access: {
+    create: ({ req }) => isSuperAdmin(req.user),
+    delete: ({ req }) => isSuperAdmin(req.user),
+  },
   admin: {
     useAsTitle: "slug",
   },
@@ -12,40 +19,49 @@ export const Tenants: CollectionConfig = {
       type: "text",
       label: "Store Name",
       admin: {
-        description: "This is the name of the store (e.g. Parvez's Store)"
-      }
+        description: "This is the name of the store (e.g. Parvez's Store)",
+      },
     },
     {
-        name: "slug",
-        type: "text",
-        index: true,
-        required: true,
-        unique: true,
-        admin: {
-            description: 
-            "This is the subdomain for the store (e.g. [slug].allcart.com"
-        }
+      name: "slug",
+      type: "text",
+      index: true,
+      required: true,
+      unique: true,
+      access: {
+        update: ({ req }) => isSuperAdmin(req.user),
+      },
+      admin: {
+        description:
+          "This is the subdomain for the store (e.g. [slug].allcart.com",
+      },
     },
     {
-        name: "image",
-        type: "upload",
-        relationTo: "media",
+      name: "image",
+      type: "upload",
+      relationTo: "media",
     },
     {
-        name: "stripeAccountId",
-        type: "text",
-        required: true,
-        admin: {
-            readOnly: true,
-        },
+      name: "stripeAccountId",
+      type: "text",
+      required: true,
+      access: {
+        update: ({ req }) => isSuperAdmin(req.user),
+      },
+      admin: {
+        description: "Stripe Account ID associate with your shop",
+      },
     },
     {
-        name: "stripeDetailsSubmitted",
-        type: "checkbox",
-        admin: {
-            readOnly: true,
-            description: "You cannot create products until you submit you Stripe details"
-        }
-    }
+      name: "stripeDetailsSubmitted",
+      type: "checkbox",
+      access: {
+        update: ({ req }) => isSuperAdmin(req.user),
+      },
+      admin: {
+        description:
+          "You cannot create products until you submit you Stripe details",
+      },
+    },
   ],
 };
