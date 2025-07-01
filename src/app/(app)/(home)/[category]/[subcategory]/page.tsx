@@ -14,11 +14,12 @@ interface Props {
   searchParams: Promise<SearchParams>;
 }
 
+export const dynamic = "force-dynamic";
+
 const Page = async ({ params, searchParams }: Props) => {
   const { subcategory } = await params;
   const filters = await loadProductFilters(searchParams);
 
-  console.log(JSON.stringify(filters), "THIS IS FROM RSC");
 
   const queryClient = getQueryClient();
   void queryClient.prefetchInfiniteQuery(
