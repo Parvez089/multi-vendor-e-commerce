@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { StarPicker } from "@/components/star-picker";
@@ -40,13 +39,15 @@ export const ReviewForm = ({ productId, initialData }: Props) => {
   const createReview = useMutation(
     trpc.reviews.create.mutationOptions({
       onSuccess: () => {
-        queryClient.invalidateQueries(trpc.reviews.getOne.queryOptions({
+        queryClient.invalidateQueries(
+          trpc.reviews.getOne.queryOptions({
             productId,
-        }))
-        setIsPreview(true)
+          })
+        );
+        setIsPreview(true);
       },
       onError: (error) => {
-        toast.error(error.message)
+        toast.error(error.message);
       },
     })
   );
@@ -151,5 +152,25 @@ export const ReviewForm = ({ productId, initialData }: Props) => {
         </Button>
       )}
     </Form>
+  );
+};
+
+export const ReviewFormSkeleton = () => {
+  return (
+    <div className='flex flex-col gap-y-4'>
+      <p className='font-medium'>Liked it? Give it a rating</p>
+
+      <StarPicker disabled />
+
+      <Textarea placeholder='Want to leave a written review?' disabled />
+      <Button
+        variant='elevated'
+        disabled
+        type='button'
+        size='lg'
+        className='bg-black text-white hover:bg-pink-400 hover:text-primary w-fit'>
+        Post review
+      </Button>
+    </div>
   );
 };
