@@ -6,7 +6,7 @@ import { Footer } from "@/modules/home/ui/components/footer";
 
 import {
   SearchFilters,
-  SearchFiltersLoading,
+  SearchFiltersSkeleton,
 } from "@/modules/home/ui/components/search-filters";
 import { Suspense } from "react";
 import { Navbar } from "@/modules/home/ui/components/navbar";
@@ -24,7 +24,7 @@ const Layout = async ({ children }: Props) => {
     <div className='flex flex-col min-h-screen'>
       <Navbar />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Suspense fallback={<SearchFiltersLoading />}>
+        <Suspense fallback={<SearchFiltersSkeleton />}>
           <SearchFilters />
         </Suspense>
       </HydrationBoundary>
